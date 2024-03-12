@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
-import Example from './components/examplechart';
+import BatTimeline from './components/batTimeline';
+import TreeWidths from './components/treeWidths';
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
           Learn React
         </a>
       </header> */}
-      <Example></Example>
+      <TreeWidths></TreeWidths>
     </div>
   );
 }

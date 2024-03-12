@@ -5,8 +5,10 @@ import { useState } from 'react';
 
 const getBatId = (recording) => recording["MANUAL ID"] || recording["AUTO ID"] || recording["ALTERNATE 1"] || recording["ALTERNATE 2"] || "Unidentified";
 const getRandomColor = () => "#" + ((1 << 24) * Math.random() | 0).toString(16).padStart(6, "0");
+// change this to use day vs hour vs minute
+const getTimePoint = recording => `${recording.DATE}-${recording.HOUR}-${recording.TIME?.split(":")[1]}`;
 
-export default function Example(){
+export default function BatTimeline(){
   // static demoUrl = 'https://codesandbox.io/s/simple-line-chart-kec3v';
   const [batRawData, setBatRawData] = useState([]);
   const [batChartData, setBatChartData] = useState([]);
@@ -19,13 +21,12 @@ export default function Example(){
         console.log(results.data)
         
         setBatRawData(results.data)
-        // for each day present in raw data, make a data point
-        // get all bat kinds we know about, and for each day, set to zero
-        // then for each bat point we see, increment the data for that bat kind on that day
-        // batRawData[i].DATE, batRawData[i]["AUTO ID"], batRawData[i]["ALTERNATE 1"], batRawData[i]["ALTERNATE 2"], batRawData[i]["MANUAL ID"]
-        const dates = results.data.map(recording => recording.DATE);
-        const distinctDates = [...new Set(dates)];
-        console.log(distinctDates);
+        // Get distinct dates
+        const datesWithHours = results.data.map(recording => getTimePoint(recording));
+        const distinctDatesWithHours = [...new Set(datesWithHours)];
+        console.log(distinctDatesWithHours);
+
+        // Get distinct bats
         const batIds = results.data.map(recording => getBatId(recording));
         const distinctBatIds = [...new Set(batIds)];
         console.log(distinctBatIds);
@@ -35,21 +36,24 @@ export default function Example(){
           return dataPoint;
         });
 */
+        // Create a hash map of date:object, where the object has each kind of bat
         const dataPoints = {};
-        distinctDates.forEach(date => {
-          const dataPoint = {DATE: date};
+        distinctDatesWithHours.forEach(timePoint => {
+          const dataPoint = {timePoint: timePoint};
           distinctBatIds.forEach(batId => dataPoint[batId] = 0);
-          dataPoints[date] = dataPoint;
+          dataPoints[timePoint] = dataPoint;
         })
         console.log(dataPoints);
 
+        // Update each object with how many of each bat we heard that day
         results.data.forEach(recording => {
           const batId = getBatId(recording);
-          dataPoints[recording.DATE][batId]++;
+          dataPoints[getTimePoint(recording)][batId]++;
         })
 
-        const finalDataPointsList = Object.keys(dataPoints).map(date => {
-          const final = {...dataPoints[date]};
+        // Convert the hashmap into a list
+        const finalDataPointsList = Object.keys(dataPoints).map(timePoint => {
+          const final = {...dataPoints[timePoint]};
           return final;
         })
         console.log(finalDataPointsList);
@@ -60,11 +64,6 @@ export default function Example(){
     });
   };
 
-  // TODO: why doesn't this work :')
-  const chartLines = batLines.map(batId => {
-    <Line type="monotone" dataKey={batId} stroke={getRandomColor()} activeDot={{ r: 8 }} />
-  });
-  
   // render() {
     return (
       <>
@@ -82,18 +81,11 @@ export default function Example(){
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="DATE" />
+          <XAxis dataKey="diameter" />
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="Unidentified" stroke={getRandomColor()}  />
-          <Line type="monotone" dataKey="LABSOR" stroke={getRandomColor()} />
-          <Line type="monotone" dataKey="NoID" stroke={getRandomColor()} />
-          <Line type="monotone" dataKey="Potential PERSUB" stroke={getRandomColor()} />
-          <Line type="monotone" dataKey="MYOLUC" stroke={getRandomColor()}  />
-          <Line type="monotone" dataKey="MULTIPLE W PULSES" stroke={getRandomColor()} />
-          <Line type="monotone" dataKey="PERSUB" stroke={getRandomColor()}/>
-          <Line type="monotone" dataKey="POTLASBOR" stroke={getRandomColor()} />
+          { batLines.map(batId => <Line type="monotone" dataKey={batId} stroke={getRandomColor()}/>)}
         </LineChart>
       </ResponsiveContainer>}
 
