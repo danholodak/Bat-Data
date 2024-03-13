@@ -1,0 +1,9 @@
+button.selected{
+    color: crimson;
+    box-shadow: 0,0,1 black;
+}
+nav{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}

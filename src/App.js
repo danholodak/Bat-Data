@@ -1,26 +1,19 @@
 import logo from './logo.svg';
 import './App.css';
-import BatTimeline from './components/batTimeline';
-import TreeWidths from './components/treeWidths';
+import BatTimeline from './components/BatTimeline';
+import TreeWidths from './components/TreeWidths';
+import { useState } from 'react';
+import TabBar from './components/TabBar';
 
 function App() {
+  const [tab, setTab] = useState("bot")
   return (
     <div className="App">
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
-      <TreeWidths></TreeWidths>
+      <TabBar tab={tab} setTab={setTab}></TabBar>
+      <main>
+      {tab=="bot"&&<BatTimeline></BatTimeline>}
+      {tab=="tw"&&<TreeWidths></TreeWidths>}
+      </main>
     </div>
   );
 }
