@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+
 import Papa from "papaparse";
 import { useState } from 'react';
 
@@ -70,7 +71,7 @@ export default function TreeWidths(){
       <>
       {treeChartData && 
       <ResponsiveContainer width="100%" height="100%" minWidth="500px" minHeight="500px">
-        <LineChart
+        <BarChart
           width={500}
           height={300}
           data={treeChartData}
@@ -86,8 +87,8 @@ export default function TreeWidths(){
           <YAxis />
           <Tooltip />
           <Legend />
-          { treeLines.map(treeId => <Line type="monotone" dataKey={treeId} stroke={getRandomColor()}/>)}
-        </LineChart>
+          { treeLines.map(treeId => <Bar type="monotone" dataKey={treeId} fill={getRandomColor()}/>)}
+        </BarChart>
       </ResponsiveContainer>}
 
       <input
