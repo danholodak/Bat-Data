@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/Bat-Data/static/css/main.f074dbad.css",
+    "main.js": "/Bat-Data/static/js/main.e8d9f1f3.js",
+    "static/js/453.978905d8.chunk.js": "/Bat-Data/static/js/453.978905d8.chunk.js",
+    "static/media/logo.svg": "/Bat-Data/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/Bat-Data/index.html",
+    "main.f074dbad.css.map": "/Bat-Data/static/css/main.f074dbad.css.map",
+    "main.e8d9f1f3.js.map": "/Bat-Data/static/js/main.e8d9f1f3.js.map",
+    "453.978905d8.chunk.js.map": "/Bat-Data/static/js/453.978905d8.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f074dbad.css",
+    "static/js/main.e8d9f1f3.js"
+  ]
+}
