@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import Papa from "papaparse";
 import { useState } from 'react';
+import { colorPalette } from '../assets/chartColorPalette';
+
 
 const getBatId = (recording) => recording["MANUAL ID"] || recording["AUTO ID"] || recording["ALTERNATE 1"] || recording["ALTERNATE 2"] || "Unidentified";
 const getRandomColor = () => "#" + ((1 << 24) * Math.random() | 0).toString(16).padStart(6, "0");
@@ -9,7 +11,7 @@ const getRandomColor = () => "#" + ((1 << 24) * Math.random() | 0).toString(16).
 const getTimePoint = recording => `${recording.DATE}-${recording.HOUR}-${recording.TIME?.split(":")[1]}`;
 
 export default function BatTimeline(){
-  // static demoUrl = 'https://codesandbox.io/s/simple-line-chart-kec3v';
+
   const [batRawData, setBatRawData] = useState([]);
   const [batChartData, setBatChartData] = useState([]);
   const [batLines, setDistinctBatLines] = useState([])

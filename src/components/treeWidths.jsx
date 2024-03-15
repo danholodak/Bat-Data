@@ -4,12 +4,14 @@ import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, L
 import Papa from "papaparse";
 import { useState } from 'react';
 
+import { colorPalette } from '../assets/chartColorPalette';
+
 const getTreeId = (recording) => recording["Common Name"];
 const getRandomColor = () => "#" + ((1 << 24) * Math.random() | 0).toString(16).padStart(6, "0");
 const getDiameter = recording => recording["DBH (in)"] ? recording["DBH (in)"].split(".")[0] : 0;
 
 export default function TreeWidths(){
-  // static demoUrl = 'https://codesandbox.io/s/simple-line-chart-kec3v';
+
   const [treeRawData, setTreeRawData] = useState([]);
   const [treeChartData, setTreeChartData] = useState([]);
   const [treeLines, setDistinctTreeLines] = useState([])
@@ -23,14 +25,20 @@ export default function TreeWidths(){
         setTreeRawData(results.data)
 
         // Get distinct trees
-        const treeIds = results.data.map(entry => getTreeId(entry));
+        const treeIds = [] 
+        results.data.forEach(entry =>{ 
+          if(getTreeId(entry)&&getTreeId(entry)!=""){
+            treeIds.push(getTreeId(entry))
+          }
+        });
         const distinctTreeIds = [...new Set(treeIds)];
         console.log(distinctTreeIds);
 
         // Get distinct diameters
-        const diameters = results.data.map(entry =>{
+        const diameters = []
+        results.data.forEach(entry =>{
           if (!isNaN(getDiameter(entry))&&getDiameter(entry)>0){
-            return getDiameter(entry)
+            diameters.push(getDiameter(entry))
           }
         });
         const distinctDiameters = [...new Set(diameters)];
@@ -54,7 +62,7 @@ export default function TreeWidths(){
         // Update each object with how many of each tree we observed that day
         results.data.forEach(entry => {
           const treeId = getTreeId(entry);
-          if (treeId!=""){
+          if (treeId&&treeId!=""){
             dataPoints[getDiameter(entry)][treeId]++;
           }
         })
@@ -93,7 +101,7 @@ export default function TreeWidths(){
           <YAxis />
           <Tooltip />
           <Legend />
-          { treeLines.map((treeId, i) => <Bar key={treeId+i} stackId="a" dataKey={treeId} fill={getRandomColor()}/>)}
+          { treeLines.map((treeId, i) => <Bar key={treeId+i} stackId="a" dataKey={treeId} fill={i>=colorPalette.length?getRandomColor():colorPalette[i]}/>)}
         </BarChart>
       </ResponsiveContainer>}
 
