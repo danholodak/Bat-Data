@@ -28,7 +28,11 @@ export default function TreeWidths(){
         console.log(distinctTreeIds);
 
         // Get distinct diameters
-        const diameters = results.data.map(entry => getDiameter(entry));
+        const diameters = results.data.map(entry =>{
+          if (!isNaN(getDiameter(entry))&&getDiameter(entry)>0){
+            return getDiameter(entry)
+          }
+        });
         const distinctDiameters = [...new Set(diameters)];
         console.log(distinctDiameters);
 
@@ -47,10 +51,12 @@ export default function TreeWidths(){
         })
         console.log(dataPoints);
 
-        // Update each object with how many of each tree we heard that day
+        // Update each object with how many of each tree we observed that day
         results.data.forEach(entry => {
           const treeId = getTreeId(entry);
-          dataPoints[getDiameter(entry)][treeId]++;
+          if (treeId!=""){
+            dataPoints[getDiameter(entry)][treeId]++;
+          }
         })
 
         // Convert the hashmap into a list
@@ -87,7 +93,7 @@ export default function TreeWidths(){
           <YAxis />
           <Tooltip />
           <Legend />
-          { treeLines.map(treeId => <Bar type="monotone" dataKey={treeId} fill={getRandomColor()}/>)}
+          { treeLines.map((treeId, i) => <Bar key={treeId+i} stackId="a" dataKey={treeId} fill={getRandomColor()}/>)}
         </BarChart>
       </ResponsiveContainer>}
 
