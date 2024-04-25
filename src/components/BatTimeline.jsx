@@ -37,7 +37,7 @@ export default function BatTimeline({ chartTitle }) {
       return `${recording.DATE} ${recording.HOUR}:00`;
     }
 
-    if (timeUnit == "halfHour") {
+    if (timeUnit === "halfHour") {
       const minutes = parseInt(recording.TIME?.split(":")[1]);
       const minuteGroup = minutes > 30 ? "30" : "00";
       const time = `${recording.HOUR}:${minuteGroup}`;
@@ -57,6 +57,7 @@ export default function BatTimeline({ chartTitle }) {
     }
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateChart = () => {
     console.log("updateChart", batRawData);
     if (!batRawData) {
@@ -115,7 +116,7 @@ export default function BatTimeline({ chartTitle }) {
 
   useEffect(() => {
     updateChart();
-  }, [timeUnit, batRawData]);
+  }, [timeUnit, batRawData, updateChart]);
 
   return (
     <>
