@@ -14,14 +14,25 @@ export default function BatTimeline({chartTitle}) {
   const [batLines, setDistinctBatLines] = useState([]);
 
   const getTimePoint = (recording) => {
-    if (timeUnit === "hour") {
-      return `${recording.DATE}-${recording.HOUR}`;
-    } else if (timeUnit === "day") {
+    if (timeUnit === "day") {
       return `${recording.DATE}`;
-    } else {
-      const minutes = parseInt(recording.TIME?.split(":")[1]);
-      return `${recording.DATE}-${recording.HOUR}-${minutes > 30 ? "30" : "00"}`;
     }
+
+    if (timeUnit === "hour") {
+      return `${recording.DATE} ${recording.HOUR}:00`;
+    }
+
+    if (timeUnit == "halfHour") {
+      const minutes = parseInt(recording.TIME?.split(":")[1]);
+      const minuteGroup = minutes > 30 ? "30" : "00";
+      const time = `${recording.HOUR}:${minuteGroup}`;
+      return `${recording.DATE} ${time}`;
+    }
+
+    // 10 minutes
+    const minutes = parseInt(recording.TIME?.split(":")[1]);
+    const time = `${recording.HOUR}:${Math.floor(minutes/10)}0`;
+    return `${recording.DATE} ${time}`;
   };
 
   const onFileUpload = (event) => {
@@ -59,24 +70,26 @@ export default function BatTimeline({chartTitle}) {
           const dataPoint = {timePoint: timePoint};
           distinctBatIds.forEach(batId => dataPoint[batId] = 0);
           dataPoints[timePoint] = dataPoint;
-        })
+        });
         console.log("dataPoints", dataPoints);
 
         // Update each object with how many of each bat we heard that day
         results.data.forEach(recording => {
           const batId = getBatId(recording);
           dataPoints[getTimePoint(recording)][batId]++;
-        })
+        });
 
         // Convert the hashmap into a list
-        const finalDataPointsList = Object.keys(dataPoints).map(timePoint => {
+        const dataPointsList = Object.keys(dataPoints).map(timePoint => {
           const final = {...dataPoints[timePoint]};
           return final;
-        })
-        console.log("finalDataPointsList", finalDataPointsList);
+        });
+
+        const sortedDataPointsList = dataPointsList.sort((a,b) => (a.timePoint > b.timePoint) ? 1 : ((b.timePoint > a.timePoint) ? -1 : 0));
+        console.log("sortedDataPointsList", sortedDataPointsList);
 
         setDistinctBatLines(distinctBatIds);
-        setBatChartData(finalDataPointsList);
+        setBatChartData(sortedDataPointsList);
       },
     });
   };
@@ -104,7 +117,7 @@ export default function BatTimeline({chartTitle}) {
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="diameter" />
+            <XAxis dataKey="timePoint" />
             <YAxis />
             <Tooltip />
             <Legend />
@@ -112,15 +125,24 @@ export default function BatTimeline({chartTitle}) {
           </LineChart>
         </ResponsiveContainer>}
       </section>
+      <br/>
       <section id="radio">
-        <label> By Hour
-        <input type="radio" value="hour" name="timeUnit" checked={timeUnit==="hour"} onClick={()=>setTimeUnit("hour")}/>
-        </label>
-        <label> By Half Hour
-        <input type="radio" value="halfHour" name="timeUnit" checked={timeUnit==="halfHour"} onClick={()=>setTimeUnit("halfHour")}/>
+        Bucketed by:&nbsp;
+        <label>
+          <input type="radio" value="halfHour" name="timeUnit" checked={timeUnit==="10Minutes"} onClick={()=>setTimeUnit("10Minutes")}/>
+          10 minutes
         </label>    
-        <label> By Day
-        <input type="radio" value="day" name="timeUnit" checked={timeUnit==="day"} onClick={()=>setTimeUnit("day")}/>
+        <label>
+          <input type="radio" value="halfHour" name="timeUnit" checked={timeUnit==="halfHour"} onClick={()=>setTimeUnit("halfHour")}/>
+          1/2 Hour
+        </label>    
+        <label>
+          <input type="radio" value="hour" name="timeUnit" checked={timeUnit==="hour"} onClick={()=>setTimeUnit("hour")}/>
+          Hour
+        </label>
+        <label>
+          <input type="radio" value="day" name="timeUnit" checked={timeUnit==="day"} onClick={()=>setTimeUnit("day")}/>
+            Day
         </label>
       </section>        
       <input
