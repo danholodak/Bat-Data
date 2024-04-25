@@ -4,54 +4,63 @@ import Papa from "papaparse";
 import { useState, useEffect } from 'react';
 import { colorPalette } from '../assets/chartColorPalette';
 
-
 const getBatId = (recording) => recording["MANUAL ID"] || recording["AUTO ID"] || recording["ALTERNATE 1"] || recording["ALTERNATE 2"] || "Unidentified";
 const getRandomColor = () => "#" + ((1 << 24) * Math.random() | 0).toString(16).padStart(6, "0");
 
-export default function BatTimeline({chartTitle}){
+export default function BatTimeline({chartTitle}) {
+  const [timeUnit, setTimeUnit] = useState("hour");
+  const [batRawData, setBatRawData] = useState();
+  const [batChartData, setBatChartData] = useState([]);
+  const [batLines, setDistinctBatLines] = useState([]);
 
-  const [timeUnit, setTimeUnit] = useState("hour")
-  // change this to use day vs hour vs minute
   const getTimePoint = (recording) => {
-    // return `${recording.DATE}-${recording.HOUR}-${recording.TIME?.split(":")[1]}`
-    if (timeUnit==="hour"){
-      return `${recording.DATE}-${recording.HOUR}`
-    }else if (timeUnit==="day"){
-      return `${recording.DATE}`
-    }else{
-      return `${recording.DATE}-${recording.HOUR}-${parseInt(recording.TIME?.split(":")[1])>30?"30":"00"}`
+    if (timeUnit === "hour") {
+      return `${recording.DATE}-${recording.HOUR}`;
+    } else if (timeUnit === "day") {
+      return `${recording.DATE}`;
+    } else {
+      const minutes = parseInt(recording.TIME?.split(":")[1]);
+      return `${recording.DATE}-${recording.HOUR}-${minutes > 30 ? "30" : "00"}`;
     }
   };
-  const [batRawData, setBatRawData] = useState([]);
-  const [batChartData, setBatChartData] = useState([]);
-  const [batLines, setDistinctBatLines] = useState([])
-  const changeHandler = (event) => {
+
+  const onFileUpload = (event) => {
+    console.log("onFileUpload", event);
     if (event.target.files[0]){
-    Papa.parse(event.target.files[0], {
+      setBatRawData(event.target.files[0]);
+    }
+  };
+
+  const updateChart = () => {
+    console.log("updateChart", batRawData);
+    if (!batRawData) {
+      return;
+    }
+
+    Papa.parse(batRawData, {
       header: true, 
       skipEmptyLines: true,
       complete: function (results) {
-        console.log(results.data)
-        
-        setBatRawData(results.data)
-        // Get distinct dates
-        const datesWithHours = batRawData.map(recording => getTimePoint(recording));
-        const distinctDatesWithHours = [...new Set(datesWithHours)];
-        console.log(distinctDatesWithHours);
+        console.log("data", results.data);
+        // Get distinct timepoints
+        const datesWithTime = results.data.map(recording => getTimePoint(recording));
+        console.log("datesWithTime", datesWithTime);
+        const distinctDatesWithTime = [...new Set(datesWithTime)];
+        console.log("distinctDatesWithTime", distinctDatesWithTime);
 
         // Get distinct bats
-        const batIds = batRawData.map(recording => getBatId(recording));
+        const batIds = results.data.map(recording => getBatId(recording));
         const distinctBatIds = [...new Set(batIds)];
-        console.log(distinctBatIds);
+        console.log("distinctBatIds", distinctBatIds);
 
         // Create a hash map of date:object, where the object has each kind of bat
         const dataPoints = {};
-        distinctDatesWithHours.forEach(timePoint => {
+        distinctDatesWithTime.forEach(timePoint => {
           const dataPoint = {timePoint: timePoint};
           distinctBatIds.forEach(batId => dataPoint[batId] = 0);
           dataPoints[timePoint] = dataPoint;
         })
-        console.log(dataPoints);
+        console.log("dataPoints", dataPoints);
 
         // Update each object with how many of each bat we heard that day
         results.data.forEach(recording => {
@@ -64,20 +73,21 @@ export default function BatTimeline({chartTitle}){
           const final = {...dataPoints[timePoint]};
           return final;
         })
-        console.log(finalDataPointsList);
+        console.log("finalDataPointsList", finalDataPointsList);
 
         setDistinctBatLines(distinctBatIds);
         setBatChartData(finalDataPointsList);
       },
-    });}
+    });
   };
-  useEffect(()=>{
 
-  }, [timeUnit])
+  useEffect(
+    () => { updateChart(); },
+    [timeUnit, batRawData]
+  );
 
-  // render() {
-    return (
-      <>
+  return (
+    <>
       <section className='theChart'>
         <h1>{chartTitle}</h1>
         {batChartData && 
@@ -114,15 +124,13 @@ export default function BatTimeline({chartTitle}){
         </label>
       </section>        
       <input
-      id='fileInput'
-      type="file"
-      name="file"
-      accept=".csv"
-      onChange={changeHandler}
-      style={{ display: "block", margin: "10px auto" }}
+        id='fileInput'
+        type="file"
+        name="file"
+        accept=".csv"
+        onChange={onFileUpload}
+        style={{ display: "block", margin: "10px auto" }}
       />
-
-      </>
-    );
-  // }
+    </>
+  );
 }
