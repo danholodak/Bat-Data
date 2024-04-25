@@ -5,11 +5,10 @@
   justify-content: center;
   min-height: 100vh;
 }
-main{
+main {
   min-height: 60vh;
 }
 
 #titleInput {
   margin-left: 5px;
 }
-
