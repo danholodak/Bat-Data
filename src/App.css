@@ -9,6 +9,10 @@ main{
   min-height: 60vh;
 }
 
+#titleInput {
+  margin-left: 5px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
