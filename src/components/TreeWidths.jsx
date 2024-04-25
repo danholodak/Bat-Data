@@ -3,7 +3,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 
 import Papa from "papaparse";
 import { useState } from 'react';
-
+import FileInput from './FileInput';
 import { colorPalette } from '../assets/chartColorPalette';
 
 const getTreeId = (recording) => recording["Common Name"];
@@ -81,7 +81,6 @@ export default function TreeWidths({chartTitle}){
     });}
   };
 
-  // render() {
     return (
       <>
         <section className='theChart'>
@@ -108,15 +107,8 @@ export default function TreeWidths({chartTitle}){
             </BarChart>
           </ResponsiveContainer>}
         </section>
-
-        <input
-        type="file"
-        name="file"
-        accept=".csv"
-        onChange={changeHandler}
-        style={{ display: "block", margin: "10px auto" }}
-        />
+        <FileInput changeHandler={changeHandler}/>
       </>
     );
-  // }
+
 }
