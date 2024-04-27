@@ -3,7 +3,12 @@ import { Line } from "recharts";
 export const getRandomColor = () =>
   "#" + (((1 << 24) * Math.random()) | 0).toString(16).padStart(6, "0");
 
-export const getTreeId = (treeMeasurement) => treeMeasurement["Common Name"];
+export const getTreeId = (treeMeasurement) => {
+  if (treeMeasurement["PARK"] && treeMeasurement["Common Name"]) {
+    return treeMeasurement["Common Name"];
+  }
+  return null;
+};
 
 export const getBatId = (recording) =>
   recording["MANUAL ID"] ||
