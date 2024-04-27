@@ -1,6 +1,4 @@
-import {
-  Line,
-} from "recharts";
+import { Line } from "recharts";
 
 export const getRandomColor = () =>
   "#" + (((1 << 24) * Math.random()) | 0).toString(16).padStart(6, "0");
@@ -14,13 +12,12 @@ export const getBatId = (recording) =>
   recording["ALTERNATE 2"] ||
   "Unidentified";
 
-
 export const getDistinctBatIdsFromSheet = (sheet) => {
   const batIds = sheet.data.map((recording) => getBatId(recording));
   const distinctBatIds = [...new Set(batIds)];
   console.log("distinctBatIds", distinctBatIds);
   return distinctBatIds;
-}
+};
 
 export const getTimePoint = (recording, timeUnit) => {
   if (timeUnit === "day") {
@@ -45,21 +42,17 @@ export const getTimePoint = (recording, timeUnit) => {
 };
 
 const renderListOfUserNames = (names) => {
-  return names.map(name => <li>{name}</li>)
-}
+  return names.map((name) => <li>{name}</li>);
+};
 
 export const getLinesFromChartData = (chartData, colorPalette) => {
   console.log("getLinesFromChartData:chartData", chartData);
-  return chartData.map((id, i) => 
+  return chartData.map((id, i) => (
     <Line
       key={id + i}
       type="monotone"
       dataKey={id}
-      stroke={
-        i >= colorPalette.length
-        ? getRandomColor()
-        : colorPalette[i]
-      }
+      stroke={i >= colorPalette.length ? getRandomColor() : colorPalette[i]}
     />
-  );
-}
+  ));
+};

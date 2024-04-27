@@ -12,7 +12,13 @@ import {
 import Papa from "papaparse";
 import { useState, useEffect } from "react";
 import { colorPalette } from "../assets/chartColorPalette";
-import { getTimePoint, getBatId, getRandomColor, getDistinctBatIdsFromSheet, getLinesFromChartData } from "../utils";
+import {
+  getTimePoint,
+  getBatId,
+  getRandomColor,
+  getDistinctBatIdsFromSheet,
+  getLinesFromChartData,
+} from "../utils";
 
 export default function BatTimeline({ chartTitle }) {
   const [timeUnit, setTimeUnit] = useState("hour");
@@ -20,14 +26,12 @@ export default function BatTimeline({ chartTitle }) {
   const [batChartData, setBatChartData] = useState([]);
   const [batLines, setDistinctBatLines] = useState([]);
 
-
   const onFileUpload = (event) => {
     console.log("onFileUpload", event);
     if (event.target.files[0]) {
       setBatRawData(event.target.files[0]);
     }
   };
-
 
   const updateChart = () => {
     console.log("updateChart", batRawData);
@@ -85,7 +89,7 @@ export default function BatTimeline({ chartTitle }) {
   useEffect(() => {
     console.log("use effect!");
     updateChart();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeUnit, batRawData]);
 
   return (
@@ -116,7 +120,6 @@ export default function BatTimeline({ chartTitle }) {
               <Tooltip />
               <Legend />
               {getLinesFromChartData(batLines, colorPalette)}
-              
             </LineChart>
           </ResponsiveContainer>
         )}
