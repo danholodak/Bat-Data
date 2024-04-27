@@ -1,55 +1,55 @@
-Plot #,Scientific Name,Common Name,DBH (in),Height,"Tree Health (1- Poor, 3- Good)",Dead (Y/N),Host Bat Species,Host Bat Guild,Roost Characteristic,Additional Notes
-VCP1,Liquidambar styraciflua,Sweet Gum,8.8,50-100,3,N,,,,
-VCP1,Betula alleghaniensis,Yellow birch,10.1,50-100,3,N,,,,
-VCP1,Liquidambar styraciflua,Sweet Gum,8,50-100,3,N,,,,
-VCP1,,Snag,6.6,<50,,Y,,,,No bark
-VCP1,Quercus alba,White Oak,27.7,<50,,Y,,,Hollow,Two stems
-VCP1,Betula alleghaniensis,Yellow birch,7.5,50-100,3,N,,,,
-VCP1,Quercus rubra,Red Oak,22,>100,3,N,,,,
-VCP1,Quercus alba,White Oak,40.6,>100,3,N,,,,
-VCP2,Liquidambar styraciflua,Sweetgum,9.3,>50,2,N,,,,Lower limbs dead
-VCP2,Liquidambar styraciflua,Sweetgum,8.5,>50,2,N,,,,Lower limbs dead
-VCP2,Liquidambar styraciflua,Sweetgum,7.6,>50,2,N,,,,Lower 3/4 limbs dead
-VCP2,Quercus rubra,Red oak,11.7,>100,2,N,,,,Lower limbs dead
-VCP2,Liquidambar styraciflua,Sweetgum,8.1,>50,2,N,,,,Lower limbs dead
-VCP2,Acer rubrum,Red maple,7.5,>50,2,N,,,,Lower limbs dead
-VCP2,Quercus rubra,Red oak,6.3,>50,2,N,,,,
-VCP2,Quercus rubra,Red oak,8.9,>50,2,N,,,,
-VCP2,Quercus rubra,Red oak,8.2,>50,2,N,,,,multi-stemmed
-VCP2,Quercus rubra,Red oak,9.8,>50,2,N,,,,
-VCP2,Quercus rubra,Red oak,7.7,>50,2,N,,,,
-VCP2,Fraxinus americanus,White ash,10.1,>50,2,N,,,,
-VCP2,Quercus rubra,Red oak,8.1,>50,2,N,,,,
-VCP3,Quercus rubra,Red oak,11.7,>50,3,N,,,,
-VCP3,Acer rubrum,Red maple,11.1,>50,3,N,,,,multi-stemmed (4; with lower)
-VCP3,Acer rubrum,Red maple,7.8,>50,3,N,,,,multi-stemmed (4)
-VCP3,Quercus rubra,Red oak,23.2,>50,3,N,,,,
-VCP4,Quercus rubra,Red oak,11.7,>50,3,N,,,,multi-stemmed (4)
-VCP4,Acer rubrum,Red maple,11.1,>50,3,N,,,,
-VCP4,Acer rubrum,Red maple,7.8,>50,3,N,,,,
-VCP4,Quercus rubra,Red oak,23.2,>50,3,N,,,,
-VCP5,Betula populifolia,Gray birch,6.6,>50,3,N,,,,
-VCP5,Prumus serotina,Black cherry,7.5,>50,,Y,,,,Snag
-VCP5,Prumus serotina,Black cherry,7.5,>50,1,N,,,,
-VCP5,Betula populifolia,Gray birch,7.5,>50,3,N,,,,
-VCP5,Betula populifolia,Gray birch,6.6,>50,3,N,,,,
-VCP5,Betula populifolia,Gray birch,7.5,>50,3,N,,,,
-VCP5,Betula populifolia,Gray birch,8,>50,3,N,,,,
-VCP5,Quercus rubra,Red oak,16,>100,3,N,,,,
-VCP5,Quercus phellos,Willow oak,10.2,>50,2,N,,,,Multi-stemmed (lower limbs dead)
-VCP5,Quercus phellos,Willow oak,15,>100,2,N,,,,Multi-stemmed (lower limbs dead)
-VCP5,Betula populifolia,Gray birch,6.6,>50,3,N,,,,Multi-stemmed (3)
-VCP5,Betula populifolia,Gray birch,6.6,>50,3,N,,,,Multi-stemmed (3)
-VCP5,Betula populifolia,Gray birch,12.5,>50,3,N,,,,Multi-stemmed (3)
-VCP6,Quercus rubra,Red Oak,30.4,>100,Good,N,,,,
-VCP6,Quercus alba,White Oak,23.1,>100,Good,N,,,,
-VCP6,Liquidambar styraciflua,Sweet Gum,7.6,50-100,Okay,N,,,,"Two dead limbs, poison ivy"
-VCP6,Liquidambar styraciflua,Sweet Gum,11.2,50-100,Good,N,,,,
-VCP6,Liquidambar styraciflua,Sweet Gum,6.5,<50,Good,N,,,,Slight slant
-VCP6,Liquidambar styraciflua,Sweet Gum,10,50-100,Good,N,,,,
-VCP6,Quercus rubra,Red Oak,25.6,>100,Good,N,,,,
-VCP6,Quercus rubra,Red Oak,30.9,<50,,Y,,,,
-VCP6,Liquidambar styraciflua,Sweet Gum,6,<50,Good,N,,,,
+PARK,Plot #,Scientific Name,Common Name,DBH (in),Height,"Tree Health (1- Poor, 3- Good)",Dead (Y/N),Host Bat Species,Host Bat Guild,Roost Characteristic,Additional Notes
+VCP,VCP1,Liquidambar styraciflua,Sweet Gum,8.8,50-100,3,N,,,,
+VCP,VCP1,Betula alleghaniensis,Yellow birch,10.1,50-100,3,N,,,,
+VCP,VCP1,Liquidambar styraciflua,Sweet Gum,8,50-100,3,N,,,,
+VCP,VCP1,,Snag,6.6,<50,,Y,,,,No bark
+VCP,VCP1,Quercus alba,White Oak,27.7,<50,,Y,,,Hollow,Two stems
+VCP,VCP1,Betula alleghaniensis,Yellow birch,7.5,50-100,3,N,,,,
+VCP,VCP1,Quercus rubra,Red Oak,22,>100,3,N,,,,
+VCP,VCP1,Quercus alba,White Oak,40.6,>100,3,N,,,,
+VCP,VCP2,Liquidambar styraciflua,Sweetgum,9.3,>50,2,N,,,,Lower limbs dead
+VCP,VCP2,Liquidambar styraciflua,Sweetgum,8.5,>50,2,N,,,,Lower limbs dead
+VCP,VCP2,Liquidambar styraciflua,Sweetgum,7.6,>50,2,N,,,,Lower 3/4 limbs dead
+VCP,VCP2,Quercus rubra,Red oak,11.7,>100,2,N,,,,Lower limbs dead
+VCP,VCP2,Liquidambar styraciflua,Sweetgum,8.1,>50,2,N,,,,Lower limbs dead
+VCP,VCP2,Acer rubrum,Red maple,7.5,>50,2,N,,,,Lower limbs dead
+VCP,VCP2,Quercus rubra,Red oak,6.3,>50,2,N,,,,
+VCP,VCP2,Quercus rubra,Red oak,8.9,>50,2,N,,,,
+VCP,VCP2,Quercus rubra,Red oak,8.2,>50,2,N,,,,multi-stemmed
+VCP,VCP2,Quercus rubra,Red oak,9.8,>50,2,N,,,,
+VCP,VCP2,Quercus rubra,Red oak,7.7,>50,2,N,,,,
+VCP,VCP2,Fraxinus americanus,White ash,10.1,>50,2,N,,,,
+VCP,VCP2,Quercus rubra,Red oak,8.1,>50,2,N,,,,
+VCP,VCP3,Quercus rubra,Red oak,11.7,>50,3,N,,,,
+VCP,VCP3,Acer rubrum,Red maple,11.1,>50,3,N,,,,multi-stemmed (4; with lower)
+VCP,VCP3,Acer rubrum,Red maple,7.8,>50,3,N,,,,multi-stemmed (4)
+VCP,VCP3,Quercus rubra,Red oak,23.2,>50,3,N,,,,
+VCP,VCP4,Quercus rubra,Red oak,11.7,>50,3,N,,,,multi-stemmed (4)
+VCP,VCP4,Acer rubrum,Red maple,11.1,>50,3,N,,,,
+VCP,VCP4,Acer rubrum,Red maple,7.8,>50,3,N,,,,
+VCP,VCP4,Quercus rubra,Red oak,23.2,>50,3,N,,,,
+VCP,VCP5,Betula populifolia,Gray birch,6.6,>50,3,N,,,,
+VCP,VCP5,Prumus serotina,Black cherry,7.5,>50,,Y,,,,Snag
+VCP,VCP5,Prumus serotina,Black cherry,7.5,>50,1,N,,,,
+VCP,VCP5,Betula populifolia,Gray birch,7.5,>50,3,N,,,,
+VCP,VCP5,Betula populifolia,Gray birch,6.6,>50,3,N,,,,
+VCP,VCP5,Betula populifolia,Gray birch,7.5,>50,3,N,,,,
+VCP,VCP5,Betula populifolia,Gray birch,8,>50,3,N,,,,
+VCP,VCP5,Quercus rubra,Red oak,16,>100,3,N,,,,
+VCP,VCP5,Quercus phellos,Willow oak,10.2,>50,2,N,,,,Multi-stemmed (lower limbs dead)
+VCP,VCP5,Quercus phellos,Willow oak,15,>100,2,N,,,,Multi-stemmed (lower limbs dead)
+VCP,VCP5,Betula populifolia,Gray birch,6.6,>50,3,N,,,,Multi-stemmed (3)
+VCP,VCP5,Betula populifolia,Gray birch,6.6,>50,3,N,,,,Multi-stemmed (3)
+VCP,VCP5,Betula populifolia,Gray birch,12.5,>50,3,N,,,,Multi-stemmed (3)
+VCP,VCP6,Quercus rubra,Red Oak,30.4,>100,Good,N,,,,
+VCP,VCP6,Quercus alba,White Oak,23.1,>100,Good,N,,,,
+VCP,VCP6,Liquidambar styraciflua,Sweet Gum,7.6,50-100,Okay,N,,,,"Two dead limbs, poison ivy"
+VCP,VCP6,Liquidambar styraciflua,Sweet Gum,11.2,50-100,Good,N,,,,
+VCP,VCP6,Liquidambar styraciflua,Sweet Gum,6.5,<50,Good,N,,,,Slight slant
+VCP,VCP6,Liquidambar styraciflua,Sweet Gum,10,50-100,Good,N,,,,
+VCP,VCP6,Quercus rubra,Red Oak,25.6,>100,Good,N,,,,
+VCP,VCP6,Quercus rubra,Red Oak,30.9,<50,,Y,,,,
+VCP,VCP6,Liquidambar styraciflua,Sweet Gum,6,<50,Good,N,,,,
 ,,,,,,,,,,
 ,Plot ID's,,VCP - Van Cortlandt Park,,RP - Riverside Park,,FRP - Forest Park,MP - Marine Park,FKP - Freshkills Park,
 ,,,,,,,,,,

@@ -14,9 +14,7 @@ import Papa from "papaparse";
 import { useState } from "react";
 import FileInput from "./FileInput";
 import { colorPalette } from "../assets/chartColorPalette";
-import { getRandomColor } from "../utils";
-
-const getTreeId = (recording) => recording["Common Name"];
+import { getTreeId, getRandomColor } from "../utils";
 
 const getDiameter = (recording) =>
   recording["DBH (in)"] ? recording["DBH (in)"].split(".")[0] : 0;
@@ -73,7 +71,8 @@ export default function TreeWidths({ chartTitle }) {
           // Update each object with how many of each tree we observed that day
           results.data.forEach((entry) => {
             const treeId = getTreeId(entry);
-            if (treeId && treeId !== "") {
+            console.log(entry);
+            if (treeId && treeId !== "" && entry["PARK"]) {
               dataPoints[getDiameter(entry)][treeId]++;
             }
           });

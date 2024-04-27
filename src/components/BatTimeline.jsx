@@ -12,14 +12,7 @@ import {
 import Papa from "papaparse";
 import { useState, useEffect } from "react";
 import { colorPalette } from "../assets/chartColorPalette";
-import { getRandomColor } from "../utils";
-
-const getBatId = (recording) =>
-  recording["MANUAL ID"] ||
-  recording["AUTO ID"] ||
-  recording["ALTERNATE 1"] ||
-  recording["ALTERNATE 2"] ||
-  "Unidentified";
+import { getTimePoint, getBatId, getRandomColor, getDistinctBatIdsFromSheet, getLinesFromChartData } from "../utils";
 
 export default function BatTimeline({ chartTitle }) {
   const [timeUnit, setTimeUnit] = useState("hour");
@@ -27,27 +20,6 @@ export default function BatTimeline({ chartTitle }) {
   const [batChartData, setBatChartData] = useState([]);
   const [batLines, setDistinctBatLines] = useState([]);
 
-  const getTimePoint = (recording) => {
-    if (timeUnit === "day") {
-      return `${recording.DATE}`;
-    }
-
-    if (timeUnit === "hour") {
-      return `${recording.DATE} ${recording.HOUR}:00`;
-    }
-
-    if (timeUnit === "halfHour") {
-      const minutes = parseInt(recording.TIME?.split(":")[1]);
-      const minuteGroup = minutes > 30 ? "30" : "00";
-      const time = `${recording.HOUR}:${minuteGroup}`;
-      return `${recording.DATE} ${time}`;
-    }
-
-    // 10 minutes
-    const minutes = parseInt(recording.TIME?.split(":")[1]);
-    const time = `${recording.HOUR}:${Math.floor(minutes / 10)}0`;
-    return `${recording.DATE} ${time}`;
-  };
 
   const onFileUpload = (event) => {
     console.log("onFileUpload", event);
@@ -56,7 +28,7 @@ export default function BatTimeline({ chartTitle }) {
     }
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   const updateChart = () => {
     console.log("updateChart", batRawData);
     if (!batRawData) {
@@ -66,20 +38,17 @@ export default function BatTimeline({ chartTitle }) {
     Papa.parse(batRawData, {
       header: true,
       skipEmptyLines: true,
-      complete: function (results) {
-        console.log("data", results.data);
+      complete: function (sheet) {
+        console.log("data", sheet.data);
         // Get distinct timepoints
-        const datesWithTime = results.data.map((recording) =>
-          getTimePoint(recording),
+        const datesWithTime = sheet.data.map((recording) =>
+          getTimePoint(recording, timeUnit),
         );
         console.log("datesWithTime", datesWithTime);
         const distinctDatesWithTime = [...new Set(datesWithTime)];
         console.log("distinctDatesWithTime", distinctDatesWithTime);
 
-        // Get distinct bats
-        const batIds = results.data.map((recording) => getBatId(recording));
-        const distinctBatIds = [...new Set(batIds)];
-        console.log("distinctBatIds", distinctBatIds);
+        const distinctBatIds = getDistinctBatIdsFromSheet(sheet);
 
         // Create a hash map of date:object, where the object has each kind of bat
         const dataPoints = {};
@@ -91,9 +60,9 @@ export default function BatTimeline({ chartTitle }) {
         console.log("dataPoints", dataPoints);
 
         // Update each object with how many of each bat we heard that day
-        results.data.forEach((recording) => {
+        sheet.data.forEach((recording) => {
           const batId = getBatId(recording);
-          dataPoints[getTimePoint(recording)][batId]++;
+          dataPoints[getTimePoint(recording, timeUnit)][batId]++;
         });
 
         // Convert the hashmap into a list
@@ -114,8 +83,10 @@ export default function BatTimeline({ chartTitle }) {
   };
 
   useEffect(() => {
+    console.log("use effect!");
     updateChart();
-  }, [timeUnit, batRawData, updateChart]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeUnit, batRawData]);
 
   return (
     <>
@@ -144,18 +115,8 @@ export default function BatTimeline({ chartTitle }) {
               <YAxis />
               <Tooltip />
               <Legend />
-              {batLines.map((batId, i) => (
-                <Line
-                  key={batId + i}
-                  type="monotone"
-                  dataKey={batId}
-                  stroke={
-                    i >= colorPalette.length
-                    ? getRandomColor()
-                    : colorPalette[i]
-                  }
-                />
-              ))}
+              {getLinesFromChartData(batLines, colorPalette)}
+              
             </LineChart>
           </ResponsiveContainer>
         )}
