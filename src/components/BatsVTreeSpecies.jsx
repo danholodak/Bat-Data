@@ -1,102 +1,109 @@
 import FileInput from "./FileInput";
 
 import {
-  BarChart,
-  Bar,
-  Rectangle,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
+    LineChart,
+    Line,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+    ResponsiveContainer,
+  } from "recharts";
 import Papa from "papaparse";
 import { useState, useEffect } from "react";
 import { colorPalette } from "../assets/chartColorPalette";
+import { getRandomColor } from "../utils";
+import { data } from "./sampledata";
 
 export default function BatsVTreeSpecies({ chartTitle }) {
-  const data = [
-    {
-      name: "Page A",
-      uv: 40,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: "Page B",
-      uv: 30,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: "Page C",
-      uv: 20,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: "Page D",
-      uv: 27,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: "Page E",
-      uv: 18,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: "Page F",
-      uv: 23,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: "Page G",
-      uv: 34,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
+  const [uploadedFile, setBatRawData] = useState({})
+  const [treeRawData, setTreeRawData] = useState({})
+  const [chartData, setChartData] = useState([])
+  const [colors, setColors] = useState(colorPalette)
+  const [lines, setLines] = useState([])
+
+  const onFileUpload = (event) => {
+    console.log("onFileUpload", event);
+    if (event.target.files[0]) {
+      setBatRawData(event.target.files[0]);
+    }
+  };  
+
+  const updateChart = () => {
+    console.log("updateChart", uploadedFile);
+    if (!uploadedFile) {
+      return;
+    }
+/*
+    if (uploadedFile.name.startsWith("bat")) {
+
+    } else if (uploadedFile.name.startsWith("tree")) {
+
+    } else {
+        return;
+    }*/
+
+    Papa.parse(uploadedFile, {
+      header: true,
+      skipEmptyLines: true,
+      complete: function (results) {
+        console.log("data", results.data);
+        
+      },
+    });
+  };
+
+  useEffect(() => {
+    updateChart();
+  }, [uploadedFile, updateChart]);
+
 
   return (
     <>
       <section className="theChart">
         <h1>{chartTitle}</h1>
-        <ResponsiveContainer
-          width="100%"
-          height="100%"
-          minHeight="500px"
-          minWidth="500px"
-        >
-          <BarChart
-            width={500}
-            height={300}
-            data={data}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
+        {data && (
+          <ResponsiveContainer
+            width="100%"
+            height="100%"
+            minWidth="500px"
+            minHeight="500px"
           >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            {/* <Bar dataKey="uv" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} barSize={20}/> */}
-            <Bar
-              dataKey="uv"
-              fill="#82ca9d"
-              activeBar={<Rectangle fill="gold" stroke="purple" />}
-            />
-          </BarChart>
-        </ResponsiveContainer>
+            <LineChart
+              width={500}
+              height={300}
+              data={data}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="timePoint" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+
+              {lines.map((id, i) => (
+                <Line
+                  key={id + i}
+                  type="monotone"
+                  dataKey={id}
+                  stroke={
+                    i >= colors.length
+                      ? getRandomColor()
+                      : colors[i]
+                  }
+                />
+              ))}
+            </LineChart>
+          </ResponsiveContainer>
+        )}
       </section>
-      <FileInput></FileInput>
+      <FileInput changeHandler={onFileUpload}></FileInput>
     </>
   );
 }
