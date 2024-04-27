@@ -138,7 +138,6 @@ export default function BatsVTreeSpecies({ chartTitle }) {
     });
   };
 
-
   // Now we have a nice data structure of parks by name, each with a map of bats:count and trees:count
   // So now, for a given bat or tree
   // we can go ahead and figure it out

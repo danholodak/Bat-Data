@@ -34,7 +34,9 @@ export default function TreeWidths({ chartTitle }) {
           setTreeRawData(results.data);
 
           // Get distinct trees
-          const treeIds = results.data.map(entry => getTreeId(entry)).filter(treeId => treeId != null);
+          const treeIds = results.data
+            .map((entry) => getTreeId(entry))
+            .filter((treeId) => treeId != null);
           const distinctTreeIds = [...new Set(treeIds)];
           console.log(distinctTreeIds);
 
