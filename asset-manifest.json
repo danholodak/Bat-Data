@@ -1,16 +1,15 @@
 {
   "files": {
-    "main.css": "/Bat-Data/static/css/main.f074dbad.css",
-    "main.js": "/Bat-Data/static/js/main.ffb52458.js",
+    "main.css": "/Bat-Data/static/css/main.c9b48679.css",
+    "main.js": "/Bat-Data/static/js/main.085fd7e6.js",
     "static/js/453.978905d8.chunk.js": "/Bat-Data/static/js/453.978905d8.chunk.js",
-    "static/media/logo.svg": "/Bat-Data/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/Bat-Data/index.html",
-    "main.f074dbad.css.map": "/Bat-Data/static/css/main.f074dbad.css.map",
-    "main.ffb52458.js.map": "/Bat-Data/static/js/main.ffb52458.js.map",
+    "main.c9b48679.css.map": "/Bat-Data/static/css/main.c9b48679.css.map",
+    "main.085fd7e6.js.map": "/Bat-Data/static/js/main.085fd7e6.js.map",
     "453.978905d8.chunk.js.map": "/Bat-Data/static/js/453.978905d8.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f074dbad.css",
-    "static/js/main.ffb52458.js"
+    "static/css/main.c9b48679.css",
+    "static/js/main.085fd7e6.js"
   ]
 }
