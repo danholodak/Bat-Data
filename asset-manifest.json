@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/Bat-Data/static/css/main.c9b48679.css",
-    "main.js": "/Bat-Data/static/js/main.085fd7e6.js",
+    "main.js": "/Bat-Data/static/js/main.e985c116.js",
     "static/js/453.978905d8.chunk.js": "/Bat-Data/static/js/453.978905d8.chunk.js",
     "index.html": "/Bat-Data/index.html",
     "main.c9b48679.css.map": "/Bat-Data/static/css/main.c9b48679.css.map",
-    "main.085fd7e6.js.map": "/Bat-Data/static/js/main.085fd7e6.js.map",
+    "main.e985c116.js.map": "/Bat-Data/static/js/main.e985c116.js.map",
     "453.978905d8.chunk.js.map": "/Bat-Data/static/js/453.978905d8.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c9b48679.css",
-    "static/js/main.085fd7e6.js"
+    "static/js/main.e985c116.js"
   ]
 }
