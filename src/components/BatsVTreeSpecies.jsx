@@ -16,7 +16,6 @@ import { colorPalette } from "../assets/chartColorPalette";
 import { getLinesFromChartData, getBatId, getTreeId } from "../utils";
 
 export default function BatsVTreeSpecies({ chartTitle }) {
-  const [parkLines, setParkLines] = useState(["batCount", "treeCount"]);
   const [batId, setBatId] = useState();
   const [treeId, setTreeId] = useState();
   const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -25,6 +24,7 @@ export default function BatsVTreeSpecies({ chartTitle }) {
 
   let numFiles = 0;
   let finishedFiles = 0;
+  const parkLines = ["batCount", "treeCount"];
 
   const onFileUpload = (event) => {
     console.log("onFileUpload", event);
@@ -33,16 +33,15 @@ export default function BatsVTreeSpecies({ chartTitle }) {
     }
   };
 
+  // magic because the csv parsing is using callbacks
   const calculateLinesWhenFinished = (parks) => {
     console.log("calculateLinesWhenFinished", finishedFiles, numFiles);
     finishedFiles++;
     if (finishedFiles < numFiles) {
-      console.log("returning early");
+      console.log("returning early - more files to parse");
       return;
     }
 
-    // fucking hell this has to happen somehow after the "COMPLETE" of the parsing
-    // callbacks are garbage
     console.log("parks", parks);
     if ("VCP" in parks) {
       console.log("VCP", parks["VCP"]);
@@ -50,7 +49,6 @@ export default function BatsVTreeSpecies({ chartTitle }) {
     const lines = getLinesForBatAndTree(parks);
     console.log("lines", lines);
     setChartData(lines);
-    // setParkLines(Object.keys(parks));
   };
 
   const updateChart = () => {
@@ -85,7 +83,6 @@ export default function BatsVTreeSpecies({ chartTitle }) {
             .filter((recording) => recording["PARK"])
             .forEach((recording) => {
               const park = recording["PARK"];
-              //  console.log("parkId", park);
               const batId = getBatId(recording);
               if (!(park in parks)) {
                 parks[park] = {
@@ -93,7 +90,6 @@ export default function BatsVTreeSpecies({ chartTitle }) {
                   trees: {},
                 };
               }
-              //  console.log("added park", parks[park]);
               if (!(batId in parks[park].bats)) {
                 parks[park].bats[batId] = {
                   count: 0,
@@ -140,24 +136,21 @@ export default function BatsVTreeSpecies({ chartTitle }) {
         },
       });
     });
-
-    // Now we have a nice data structure of parks by name, each with a map of bats:count and trees:count
-    // So now, for a given bat or tree
-    // we can go ahead and figure it out
   };
 
+
+  // Now we have a nice data structure of parks by name, each with a map of bats:count and trees:count
+  // So now, for a given bat or tree
+  // we can go ahead and figure it out
   const getLinesForBatAndTree = (parks) => {
     const lines = Object.keys(parks).map((parkName) => {
       const park = parks[parkName];
       console.log("park", park);
-      // TODO: use _.get() to make this safe
-      if (!(batId in park.bats) || !(treeId in park.trees)) {
-        return null;
-      }
+      // TODO: consider using _.get() to make this safe
       return {
         name: parkName,
-        batCount: park.bats[batId].count,
-        treeCount: park.trees[treeId].count,
+        batCount: batId in park.bats ? park.bats[batId].count : 0,
+        treeCount: treeId in park.trees ? park.trees[treeId].count : 0,
       };
     });
     console.log("lines unfiltered", lines);
