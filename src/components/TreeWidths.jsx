@@ -14,10 +14,10 @@ import Papa from "papaparse";
 import { useState } from "react";
 import FileInput from "./FileInput";
 import { colorPalette } from "../assets/chartColorPalette";
+import { getRandomColor } from "../utils";
 
 const getTreeId = (recording) => recording["Common Name"];
-const getRandomColor = () =>
-  "#" + (((1 << 24) * Math.random()) | 0).toString(16).padStart(6, "0");
+
 const getDiameter = (recording) =>
   recording["DBH (in)"] ? recording["DBH (in)"].split(".")[0] : 0;
 

@@ -14,6 +14,7 @@ import {
 import Papa from "papaparse";
 import { useState, useEffect } from "react";
 import { colorPalette } from "../assets/chartColorPalette";
+import { getRandomColor } from "../utils";
 
 export default function BatsVTreeWidths({ chartTitle }) {
   const data = [

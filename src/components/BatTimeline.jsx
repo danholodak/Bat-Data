@@ -12,6 +12,7 @@ import {
 import Papa from "papaparse";
 import { useState, useEffect } from "react";
 import { colorPalette } from "../assets/chartColorPalette";
+import { getRandomColor } from "../utils";
 
 const getBatId = (recording) =>
   recording["MANUAL ID"] ||
@@ -19,8 +20,6 @@ const getBatId = (recording) =>
   recording["ALTERNATE 1"] ||
   recording["ALTERNATE 2"] ||
   "Unidentified";
-const getRandomColor = () =>
-  "#" + (((1 << 24) * Math.random()) | 0).toString(16).padStart(6, "0");
 
 export default function BatTimeline({ chartTitle }) {
   const [timeUnit, setTimeUnit] = useState("hour");
@@ -152,8 +151,8 @@ export default function BatTimeline({ chartTitle }) {
                   dataKey={batId}
                   stroke={
                     i >= colorPalette.length
-                      ? getRandomColor()
-                      : colorPalette[i]
+                    ? getRandomColor()
+                    : colorPalette[i]
                   }
                 />
               ))}
