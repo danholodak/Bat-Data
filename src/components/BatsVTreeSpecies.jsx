@@ -19,6 +19,7 @@ import TreePresenceTable from "./treePresenceTable";
 export default function BatsVTreeSpecies({ chartTitle }) {
   const [batId, setBatId] = useState();
   const [treeId, setTreeId] = useState();
+  const [selectedTrees, setSelectedTrees] = useState([]);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [colors, setColors] = useState(colorPalette);
@@ -53,6 +54,13 @@ export default function BatsVTreeSpecies({ chartTitle }) {
     setChartData(lines);
     setParks(parks); // todo: should make the chart be a component separate from the uploading and csv parsing, like the presence table
   };
+
+  const updateSelectedTree = (selectedTree) => {
+    setTreeId(selectedTree);
+    const newTrees = new Set(selectedTree.split(",").map(tree => tree.trim()).filter(tree => tree !== ""));
+    console.log("newTrees", newTrees);
+    setSelectedTrees([...newTrees]);
+  }
 
   const updateChart = () => {
     console.log("updateChart", uploadedFiles);
@@ -149,11 +157,13 @@ export default function BatsVTreeSpecies({ chartTitle }) {
       const park = parks[parkName];
       console.log("park", park);
       // TODO: consider using _.get() to make this safe
-      return {
+      const obj = {
         name: parkName,
         batCount: batId in park.bats ? park.bats[batId].count : 0,
-        treeCount: treeId in park.trees ? park.trees[treeId].count : 0,
+        treeCount: selectedTrees.reduce((acc, tree) => tree in park.trees ? acc + park.trees[tree].count : acc, 0),
       };
+      console.log(`tree count for park ${parkName}: `, obj.treeCount);
+      return obj;
     });
     console.log("lines unfiltered", lines);
     return lines.filter((line) => line != null);
@@ -212,7 +222,7 @@ export default function BatsVTreeSpecies({ chartTitle }) {
         <input
           id="treeIdInput"
           type="text"
-          onChange={(e) => setTreeId(e.target.value)}
+          onChange={(e) => updateSelectedTree(e.target.value)}
         />
       </label>
       <TreePresenceTable parks={parks} />
