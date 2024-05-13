@@ -1,5 +1,5 @@
 import * as React from 'react';
-//import ReactTable from 'react-table'
+import { useTable } from 'react-table'
 
 /**
  * 
@@ -64,19 +64,19 @@ const getRows = (parks) => {
     const knownTreeNames = Object.keys(knownTrees);
     console.log("knownTreeNames", knownTreeNames);
 
-    const unknownTrees = fieldLoggedTreeNames
+    const unknownTreeNames = fieldLoggedTreeNames
         .filter(fieldLoggedTreeName => 
             !knownTreeNames.some(knownTreeName => 
                 knownTreeName.replaceAll(" ", "").localeCompare(fieldLoggedTreeName.replaceAll(" ", ""))));
-    console.log("unknownTrees", unknownTrees);
+    console.log("unknownTrees", unknownTreeNames);
 
-    const totalSetOfTreeNames = new Set(knownTreeNames.concat(unknownTrees));
+    const totalSetOfTreeNames = new Set(knownTreeNames.concat(unknownTreeNames));
 
     // so now we have to take our set of names and combine that with the park info and the treeCounts
     const rows = [];
     totalSetOfTreeNames.forEach(treeName => {
         // for each park 
-        const genus = treeName in knownTreeNames ? knownTrees[treeName] : "";
+        const genus = knownTreeNames.includes(treeName) ? knownTrees[treeName] : "";
         const row = {genus: genus, commonName: treeName};
         parkNames.forEach(parkName => row[parkName] = 0);
         const standardizedName = treeName.toLowerCase().replaceAll(" ", "");
@@ -93,10 +93,52 @@ const getRows = (parks) => {
     return rows;
 }
 
+function MyTable({ columns, data }) {
+    // Use the state and functions returned from useTable to build your UI
+    const {
+      getTableProps,
+      getTableBodyProps,
+      headerGroups,
+      rows,
+      prepareRow,
+    } = useTable({
+      columns,
+      data,
+    })
+  
+    // Render the UI for your table
+    return (
+      <table {...getTableProps()}>
+        <thead>
+          {headerGroups.map(headerGroup => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map(column => (
+                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {rows.map((row, i) => {
+            prepareRow(row)
+            return (
+              <tr {...row.getRowProps()}>
+                {row.cells.map(cell => {
+                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                })}
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+    )
+  }
+  
+
 export default function TreePresenceTable({parks}) {
     const rows = getRows(parks);
     const parkNames = Object.keys(parks);
-
+    
       const headers = [{
         Header: 'Genus',
         accessor: 'genus'
@@ -108,6 +150,7 @@ export default function TreePresenceTable({parks}) {
         headers.push({Header: parkName, accessor: parkName});
       })
 
-      // todo: display table;
-      return <h1>I hate you</h1>;
+      return (
+        <MyTable columns={headers} data={rows} />
+    );
 }

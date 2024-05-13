@@ -14,6 +14,7 @@ import Papa from "papaparse";
 import { useState, useEffect } from "react";
 import { colorPalette } from "../assets/chartColorPalette";
 import { getLinesFromChartData, getBatId, getTreeId } from "../utils";
+import TreePresenceTable from "./treePresenceTable";
 
 export default function BatsVTreeSpecies({ chartTitle }) {
   const [batId, setBatId] = useState();
@@ -21,6 +22,7 @@ export default function BatsVTreeSpecies({ chartTitle }) {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [colors, setColors] = useState(colorPalette);
+  const [parks, setParks ] = useState({});
 
   let numFiles = 0;
   let finishedFiles = 0;
@@ -49,6 +51,7 @@ export default function BatsVTreeSpecies({ chartTitle }) {
     const lines = getLinesForBatAndTree(parks);
     console.log("lines", lines);
     setChartData(lines);
+    setParks(parks); // todo: should make the chart be a component separate from the uploading and csv parsing, like the presence table
   };
 
   const updateChart = () => {
@@ -212,6 +215,7 @@ export default function BatsVTreeSpecies({ chartTitle }) {
           onChange={(e) => setTreeId(e.target.value)}
         />
       </label>
+      <TreePresenceTable parks={parks} />
     </>
   );
 }

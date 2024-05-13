@@ -12,6 +12,15 @@ function App() {
   return (
     <div className="App">
       <TabBar tab={tab} setTab={setTab}></TabBar>
+      <label>
+        {" "}
+        Set a title for your chart:
+        <input
+          id="titleInput"
+          type="text"
+          onChange={(e) => setChartTitle(e.target.value)}
+        />
+      </label>
       <main>
         {tab === "bot" && (
           <BatTimeline
@@ -38,15 +47,6 @@ function App() {
           ></BatsVTreeSpecies>
         )}
       </main>
-      <label>
-        {" "}
-        Set a title for your chart:
-        <input
-          id="titleInput"
-          type="text"
-          onChange={(e) => setChartTitle(e.target.value)}
-        />
-      </label>
     </div>
   );
 }
